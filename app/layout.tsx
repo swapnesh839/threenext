@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import Background from "@/components/globalbackground/Background";
+import Header from "@/components/Header/Header";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -17,7 +18,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body cz-shortcut-listen="false" className={inter.className}>
+      <body cz-shortcut-listen="false" style={{background: "black"}} className={inter.className}>
+        <Header/>
         <Background/>
         <div className="z-50">
         {children}
