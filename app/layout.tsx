@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import Background from "@/components/globalbackground/Background";
+import Header from "@/components/Header/Header";
+import Storeprovider from "@/lib/reduxtoolkit/store/Storeprovider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -18,10 +20,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body cz-shortcut-listen="false" className={inter.className}>
-        <Background/>
-        <div className="z-50">
-        {children}
+        <Storeprovider>
+        <div className="relative z-50 bg-transparent">
+          <Header />
+          {children}
         </div>
+        <Background />
+        </Storeprovider>
       </body>
     </html>
   );
