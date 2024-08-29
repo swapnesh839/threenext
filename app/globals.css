@@ -19,4 +19,10 @@
     /* background-color: black; */
     @apply text-white;
   }
+  .Headerbg {
+    @apply bg-[#2003389a]; /* Apply the Tailwind color */
+    /* position: relative; */
+    backdrop-filter: blur(3px);
+     /* -webkit-filter: blur(8px);  */
+  }
 }

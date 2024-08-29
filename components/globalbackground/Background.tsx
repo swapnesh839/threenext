@@ -1,8 +1,8 @@
 "use client";
 
-import React, { useState, useRef, Suspense, useEffect, useMemo } from "react";
-import { Canvas, useFrame } from "@react-three/fiber";
-import { Points, PointMaterial } from "@react-three/drei";
+import React, { useState, useRef, Suspense, useEffect } from "react";
+import { Canvas, useFrame, useThree } from "@react-three/fiber";
+import { Points, PointMaterial, OrbitControls } from "@react-three/drei";
 import { random } from "maath";
 import { useScroll, useTransform } from "framer-motion";
 import { useSelector } from "react-redux";
@@ -10,6 +10,8 @@ const music = '/assets/audio/space-ambience-56265.mp3';
 import { Rootstore } from '@/lib/reduxtoolkit/store/store';
 
 const StarBackground = (props: any) => {
+    const { camera } = useThree()
+    // camera.position.z = 0
     const ref: any = useRef();
     const ref2: any = useRef();
     // const [sphere] = useState(() =>
@@ -20,28 +22,68 @@ const StarBackground = (props: any) => {
     );
 
     const { scrollY } = useScroll();
-    const rotateY = useTransform(scrollY, [0, window.innerHeight], [0, Math.PI * 300]);
+    const rotateY = useTransform(scrollY, [0, window.innerHeight], [0, Math.PI * 400]);
+    const [loop, setloop] = useState("one")
+    const resetloop = () => {
+        setTimeout(() => {
+            setloop("one");
+        }, 60000);
+    }
 
-    useFrame(({ clock }) => {
-        ref.current.rotation.x += Math.PI / 270;
+    useFrame(({ clock }, delta) => {
+        switch (loop) {
+            case "one":
+                if (camera.position.z < 2.8) {
+                    camera.position.z += 0.0065;
+                    // console.log("increasing z", camera.position.z);
+                } else {
+                    setloop("two");
+                    // console.log("first ended, moving to 'two'");
+                }
+                break;
+
+            case "two":
+                if (camera.position.z > 1.3) {
+                    camera.position.z -= 0.0390;
+                    // console.log("decreasing z", camera.position.z);
+                } else {
+                    resetloop()
+                }
+                break;
+            default:
+                break;
+        }
+        // if (camera.position.z <= 3) {
+        //     camera.position.z += 0.0065;
+        //     console.log("not", camera.position.z);
+        // } else {
+        //     camera.position.z -= 0.09;
+        //     console.log("not", camera.position.z);
+        // }
+
+        ref.current.rotation.x -= delta / 10;
+        ref.current.rotation.y -= delta / 10;
+        ref.current.rotation.z -= delta / 10;
+        // ref.current.rotation.x -= Math.PI / 450;
         ref.current.rotation.y = rotateY.get();
+        // const elapsedTime = clock.getElapsedTime();
 
-        const elapsedTime = clock.getElapsedTime();
-        const color = `hsl(${(elapsedTime * 10) % 360}, 100%, 50%)`;
-        ref.current.material.color.set(color);
+        // // const color = `hsl(${(elapsedTime * 10) % 430}, 100%, 50%)`;
+        // const color = `hsl(${(elapsedTime * 10) % 430}, 100%, 50%)`;
+        // ref.current.material.color.set(color);
     });
 
     return (
-        <group>
+        <group ref={ref}>
             <Points
-                ref={ref}
+                // ref={ref}
                 positions={sphere}
                 stride={3}
                 frustumCulled
                 {...props}
             >
                 <PointMaterial
-                    color="blue" // This initial color will be overridden by the useFrame hook
+                    color="purple" 
                     size={0.004}
                     sizeAttenuation={true}
                     depthWrite={false}
@@ -55,7 +97,7 @@ const StarBackground = (props: any) => {
                 {...props}
             >
                 <PointMaterial
-                    color="blue" // This initial color will be overridden by the useFrame hook
+                    color="blue" 
                     size={0.0004}
                     sizeAttenuation={true}
                     depthWrite={false}
@@ -69,13 +111,12 @@ const StarBackground = (props: any) => {
 const Background = () => {
 
     return (
-        <div className="w-full h-full fixed inset-0">
+        <div className="w-full h-full fixed inset-0 -z-40">
             <Suspense fallback={null}>
                 <Audio />
-                <Canvas className="fixed top-0 left-0 right-0 bottom-0 bg-black w-full h-full -z-50" camera={{ position: [0, 0, 1] }}>
+                <Canvas className="fixed top-0 left-0 right-0 bottom-0 bg-black w-full h-full -z-50" camera={{ position: [0, 0, 0] }}>
                     <StarBackground />
                     <group>
-
                     </group>
                 </Canvas>
             </Suspense>
@@ -88,18 +129,16 @@ const Audio = () => {
     const MusicState = useSelector((state: Rootstore) => state.music.music);
     const audioref = useRef<HTMLAudioElement | null>(null);
     useEffect(() => {
-        console.log(MusicState);
-    
         if (MusicState) {
             if (audioref.current) {
                 audioref.current.play();
             }
-        }else{
+        } else {
             if (audioref.current) {
                 audioref.current.pause();
             }
         }
-    },[MusicState])
+    }, [MusicState])
     return (
         <div className="hidden">
             <audio autoPlay loop ref={audioref}>
@@ -114,4 +153,4 @@ const Audio = () => {
 
 
 
-export default Background;
+export default React.memo(Background);
