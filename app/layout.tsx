@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import Background from "@/components/globalbackground/Background";
 import Header from "@/components/Header/Header";
+import Storeprovider from "@/lib/reduxtoolkit/store/Storeprovider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -18,12 +19,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body cz-shortcut-listen="false" style={{background: "black"}} className={inter.className}>
-        <Header/>
+      <body cz-shortcut-listen="false" className={inter.className}>
         <Background/>
         <div className="z-50">
         {children}
         </div>
+        <Background />
+        </Storeprovider>
       </body>
     </html>
   );
