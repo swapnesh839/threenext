@@ -1,12 +1,16 @@
 import React from 'react'
+import { motion } from "framer-motion";
+import Sparklescomponent from '../StyledComponent/Sparklescomponent'
 
 const Herosection = () => {
   return (
-    <div>
-        <div className='custom-container'>
-
+    <motion.div className='custom-container sectionpadding'>
+      <div>
+        <div>
+          <Sparklescomponent text='Three js Portfolio ' />
         </div>
-    </div>
+      </div>
+    </motion.div>
   )
 }
 
