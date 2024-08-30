@@ -21,7 +21,6 @@
     /* background-color: black; */
     @apply text-white;
   }
-
   .sectionpadding {
     @apply py-24;
     @apply md:py-28;
