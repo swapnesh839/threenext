@@ -41,9 +41,5 @@
 
   .Headerbg {
     @apply backdrop-blur-sm bg-[#2f0e4b50];
-    /* Apply the Tailwind color */
-    /* position: relative; */
-    /* backdrop-filter: blur(3px); */
-    /* -webkit-filter: blur(8px);  */
   }
 }
