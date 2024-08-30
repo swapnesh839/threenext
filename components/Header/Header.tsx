@@ -20,13 +20,13 @@ const Header = () => {
         </Link>
         <ul className='flex p-3 flex-row  my-auto'>
         <li className='mx-4 justify-center align-middle md:flex hidden' onClick={() => dispatch(toggleMusic())}>
-            <GithubIcon className='m-auto hover:text-sky-500 hover:rotate-[-12deg] hover:scale-105 transition-all'/>
+           <a href='https://github.com/swapnesh839' target='_blank'> <GithubIcon className='m-auto hover:text-sky-500 hover:rotate-[-12deg] hover:scale-105 transition-all'/></a>
           </li>
           <li className='mx-4 justify-center align-middle md:flex hidden' onClick={() => dispatch(toggleMusic())}>
-            <LinkedinIcon className='m-auto hover:text-sky-500 hover:rotate-[-12deg] hover:scale-105 transition-all'/>
+            <a href='https://www.linkedin.com/in/swapnesh-panda-164b79303/' target='_blank'><LinkedinIcon className='m-auto hover:text-sky-500 hover:rotate-[-12deg] hover:scale-105 transition-all'/></a>
           </li>
           <li className='mx-4 justify-center align-middle md:flex hidden' onClick={() => dispatch(toggleMusic())}>
-            <Instagram className='m-auto hover:text-sky-500 hover:rotate-[-12deg] hover:scale-105 transition-all'/>
+          <a href='https://www.instagram.com/swapnesh.io/' target='_blank'><Instagram className='m-auto hover:text-sky-500 hover:rotate-[-12deg] hover:scale-105 transition-all'/></a>
           </li>
           <li className='mx-4'>
             <Link className='hover:text-sky-500 hover:scale-105 transition-all' href={'/Car'}>3D Car</Link>

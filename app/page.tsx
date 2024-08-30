@@ -8,7 +8,7 @@ export default function Home() {
     <>
       <Background/>
       <Herosection/>
-      {/* <Technologies/> */}
+      <Technologies/>
     </>
   );
 }
