@@ -8,11 +8,13 @@
   }
 
   .custom-container {
-    @apply xl:container mx-auto px-3;
+    @apply xl:container mx-auto ;
+    @apply sm:px-3;
+    @apply px-8;
   }
 
   .custom-heading {
-    @apply 2xl:text-3xl xl:text-2xl sm:text-xs font-bold text-white;
+    @apply md:text-6xl text-4xl font-bold text-white;
   }
 
   body {
@@ -21,7 +23,9 @@
   }
 
   .sectionpadding {
-    @apply xl:py-32 sm:py-20;
+    @apply py-24;
+    @apply md:py-28;
+    @apply xl:py-36;
   }
 
   .gradient-text {

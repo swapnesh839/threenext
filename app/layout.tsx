@@ -29,7 +29,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body cz-shortcut-listen="false" className={inter.className}>
+      <body cz-shortcut-listen="false" style={{ scrollBehavior: "smooth" ,overflowX:"hidden"}} className={inter.className}>
         <Storeprovider>
         <div className="relative bg-transparent">
           <Header />
