@@ -4,7 +4,8 @@ import React, { Suspense, useEffect, useRef, useState } from "react";
 import { Canvas, useFrame, useLoader, useThree } from "@react-three/fiber";
 import { MeshReflectorMaterial, OrbitControls, PerspectiveCamera, useGLTF, useHelper } from "@react-three/drei";
 import { Mesh, Object3D, RepeatWrapping, SpotLight, SpotLightHelper, TextureLoader } from "three";
-import { LinearEncoding } from "@react-three/drei/helpers/deprecated";
+// import { LinearEncoding } from "@react-three/drei/helpers/deprecated";
+
 const Model = () => {
     const ref = useRef<Mesh>(null);
     const { camera } = useThree()
@@ -45,7 +46,7 @@ const Model = () => {
                 // console.log(flikkerstrength,"flickerstength");
                 setlightintensity(flikkerstrength)
                 setInitialFlikkercount(InitialFlikkercount + 1)
-            }else{
+            } else {
                 setlightintensity(0)
                 setisInitialFlikkerdone(true)
             }
@@ -67,7 +68,7 @@ const Model = () => {
                 shadow-bias={-0.0001}
                 color={[1, 0.25, 0.7]}
             />
-            <ambientLight intensity={0.05} />
+            <ambientLight intensity={0.04} />
             {/* <directionalLight
                 castShadow
                 intensity={1}
@@ -106,7 +107,7 @@ const Model = () => {
                 <MeshReflectorMaterial
                     envMapIntensity={0}
                     normalMap={normalMap}
-                    normalMap-encoding={LinearEncoding}
+                    // normalMap-encoding={LinearEncoding}
                     roughnessMap={roughnessMap}
                     dithering={true}
                     mirror={0}
@@ -137,10 +138,66 @@ const Page = () => {
                 >
                     <OrbitControls autoRotate={true} autoRotateSpeed={0.2} minDistance={2} maxDistance={10} />
                     <Model />
+                    <TorosGeos />
                 </Canvas>
             </Suspense>
         </div>
     );
 };
+const TorosGeos = () => {
+    const [colors, setcolors] = useState("hsl(0, 100%, 50%)")
+    const [order, setorder] = useState(true)
+    // const [colors, setcolors] = useState({ one: "rgb(255, 0, 0)", two: "rgb(255, 0, 0)", three: "rgb(255, 0, 0)", four: "rgb(255, 0, 0)", five: "rgb(255, 0, 0)" })
+    let [clrref,setcolorref]= useState(0) 
+    useFrame((_, delta) => {
+        const ramdomval = Math.ceil(Math.random()*2)
+        // console.log(delta,ramdomval);
+        console.log(colors);
+        setcolors(`hsl(${clrref}, 100%, 50%)`)
+        if (order) {
+            setcolorref(clrref+ramdomval)
+        }else{
+            setcolorref(clrref-ramdomval)
+            // setcolors(`hsl(${clrref-ramdomval}, 100%, 50%)`)
+        }
+
+    })
+    useEffect(() => {
+        const interval = setInterval(() => {
+            if (order) {
+                setorder(false)
+            }else{
+                setorder(true)
+            }
+        }, 3000);
+        return (
+            clearInterval(interval)
+        )
+    }, [])
+    return (
+        <>
+            <mesh position={[0, 0, -1.5]}>
+                <torusGeometry args={[1.2, 0.13, 160, 100]} />
+                <meshBasicMaterial color={colors} />
+            </mesh>
+            <mesh>
+                <torusGeometry args={[1.2, 0.13, 160, 100]} />
+                <meshBasicMaterial color={colors} />
+            </mesh>
+            <mesh position={[0, 0, 1.5]}>
+                <torusGeometry args={[1.2, 0.13, 160, 100]} />
+                <meshBasicMaterial color={colors} />
+            </mesh>
+            <mesh position={[0, 0, -3]}>
+                <torusGeometry args={[1.2, 0.13, 160, 100]} />
+                <meshBasicMaterial color={colors} />
+            </mesh>
+            <mesh position={[0, 0, 3]}>
+                <torusGeometry args={[1.2, 0.13, 160, 100]} />
+                <meshBasicMaterial color={colors} />
+            </mesh>
+        </>
+    )
+}
 
 export default Page;
