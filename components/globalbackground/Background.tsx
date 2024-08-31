@@ -30,7 +30,7 @@ const StarBackground = (props: any) => {
         }, 60000);
     }
 
-    useFrame(({ clock }, delta) => {
+    useFrame((_, delta) => {
         switch (loop) {
             case "one":
                 if (camera.position.z < 2.8) {
