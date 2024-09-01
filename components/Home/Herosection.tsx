@@ -36,8 +36,8 @@ const Herosection = () => {
             Learn More!
           </motion.button>
         </div>
-        <div className='md:mt-0 mt-10 w-full md:w-1/2'>
-          <motion.div variants={slideInFromRight(0.5)} initial="hidden" animate="visible">
+        <div className='md:mt-0 mt-10 w-full md:w-1/2 flex'>
+          <motion.div variants={slideInFromRight(0.5)} className='m-auto' initial="hidden" animate="visible">
             <Image src="/assets/img/Herosectionimg.png" alt="hero" width={500} height={500} />
           </motion.div>
 

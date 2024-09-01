@@ -54,7 +54,7 @@ const Model = ({ color, camerposition }: { color: string, camerposition?: Camera
 
     return <group>
         <primitive ref={ref} object={scene} />
-        {/* <mesh position={[0, 0, 0]} rotation={[-Math.PI / 2, 0, 0]} receiveShadow={true}>
+        <mesh position={[0, 0, 0]} rotation={[-Math.PI / 2, 0, 0]} receiveShadow={true}>
             <planeGeometry args={[100, 100]} />
             <meshStandardMaterial
                 color="white"
@@ -62,11 +62,11 @@ const Model = ({ color, camerposition }: { color: string, camerposition?: Camera
                 metalness={0.7}
                 transparent
                 opacity={0.3}
-            /> */}
-        {/* <meshBasicMaterial transparent  opacity={0.3} 
+            />
+        <meshBasicMaterial transparent  opacity={0.3} 
             // side={DoubleSide}
-             color="white" /> */}
-        {/* </mesh> */}
+             color="white" />
+        </mesh>
     </group>
 
 };
@@ -97,9 +97,9 @@ const Page = () => {
                 <Link href={'/Car/V2'}
                     className="fixed right-0 top-1/3 z-[999] text-purple-500 hover:scale-105 transition-all  px-3 py-1 rounded-s bg-white text-xl"
                 >V2</Link>
-                <button className="fixed left-0 top-1/2 m-3 bg-purple-900 text-white hover:bg-black border border-transparent hover:border-purple-900 font-bold py-2 px-4 rounded z-30">
+                {/* <button className="fixed left-0 top-1/2 m-3 bg-purple-900 text-white hover:bg-black border border-transparent hover:border-purple-900 font-bold py-2 px-4 rounded z-30">
                     <a target="_blank" href="https://sketchfab.com/3d-models/lamborghini-huracan-twin-turbo-lost-1d3809ea5a6749d9864ec4c32511d716">Model</a>
-                </button>
+                </button> */}
                 <div className="fixed bottom-0 left-1/2 -translate-x-1/2 z-30 m-7 w-fit flex justify-center align-middle">
                     <div className="inline w-6 h-6 mx-3 rounded-full bg-[#ffffff]" onClick={() => setcolor("#ffffff")}></div>
                     <div className="inline w-6 h-6 mx-3 rounded-full bg-[#156CC3]" onClick={() => setcolor('#156CC3')}></div>
@@ -113,7 +113,6 @@ const Page = () => {
                 >
                     <ambientLight intensity={0.3} />
                     <spotLight
-
                     />
                     <directionalLight
                         intensity={2}

@@ -2,8 +2,9 @@
 
 import React, { MutableRefObject, useEffect, useRef, useState } from "react";
 import { Canvas, useFrame, useLoader, useThree } from "@react-three/fiber";
-import { MeshReflectorMaterial, OrbitControls, PerspectiveCamera, useGLTF, useHelper } from "@react-three/drei";
-import { Mesh, Object3D, RepeatWrapping, SpotLight, SpotLightHelper, TextureLoader } from "three";
+import { CubeCamera, Environment, MeshReflectorMaterial, OrbitControls, PerspectiveCamera, useGLTF, useHelper } from "@react-three/drei";
+import { Color, Mesh, MeshStandardMaterial, Object3D, RepeatWrapping, SpotLight, SpotLightHelper, TextureLoader } from "three";
+import Link from "next/link";
 // import { LinearEncoding } from "@react-three/drei/helpers/deprecated";
 
 const Model = () => {
@@ -141,13 +142,23 @@ const Model = () => {
 const Page = () => {
     return (
         <div className="w-full h-full fixed inset-0 -z-40 bg-black">
+            <Link href={'/Car'}
+                    className="fixed right-0 top-1/3 z-[999] text-purple-500 hover:scale-105 transition-all  px-3 py-1 rounded-s bg-white text-xl"
+                >V1</Link>
             <Canvas
                 className="fixed top-0 left-0 right-0 bottom-0  w-full h-full -z-10"
                 camera={{ position: [2, 2, 3] }}
             >
-                <OrbitControls autoRotate={true} autoRotateSpeed={0.2} minDistance={2} maxDistance={10} />
-                <Model />
-                <TorosGeos />
+                <OrbitControls autoRotate={true} autoRotateSpeed={0.2} minDistance={2} maxDistance={10} maxPolarAngle={Math.PI / 2} />
+                    <Model />
+                {/* <CubeCamera resolution={256} frames={Infinity}>
+                    {(texture) => (
+                        <>
+                        <Environment map={texture} />
+                        </>
+                    )}
+                </CubeCamera> */}
+                {/* <TorosGeos /> */}
             </Canvas>
         </div>
     );
@@ -158,17 +169,40 @@ const TorosGeos = () => {
     const torosRef: MutableRefObject<(Mesh | null)[]> = useRef([]);
     // const [colors, setcolors] = useState({ one: "rgb(255, 0, 0)", two: "rgb(255, 0, 0)", three: "rgb(255, 0, 0)", four: "rgb(255, 0, 0)", five: "rgb(255, 0, 0)" })
     let [clrref, setcolorref] = useState(0)
-    useFrame((_, delta) => {
-        const ramdomval = Math.ceil(Math.random() * 2)
-        // console.log(delta,ramdomval);
-        console.log(colors);
-        setcolors(`hsl(${clrref}, 100%, 50%)`)
-        if (order) {
-            setcolorref(clrref + ramdomval)
-        } else {
-            setcolorref(clrref - ramdomval)
-            // setcolors(`hsl(${clrref-ramdomval}, 100%, 50%)`)
-        }
+    useFrame(() => {
+        // const ramdomval = Math.ceil(Math.random() * 2)
+        // // console.log(delta,ramdomval);
+        // console.log(colors);
+        // setcolors(`hsl(${clrref}, 100%, 50%)`)
+        // if (order) {
+        //     setcolorref(clrref + ramdomval)
+        // } else {
+        //     setcolorref(clrref - ramdomval)
+        //     // setcolors(`hsl(${clrref-ramdomval}, 100%, 50%)`)
+        // }
+
+        // for (let i = 0; i < torosRef.current.length; i++) {
+        //     let mesh = torosRef.current[i]
+            
+        //     let z = Math.abs((i - 7) * 3.5)
+        //     mesh?.position.set(0, 0, z)
+        //     mesh?.scale.set(1 - z * .04, 1 - z * .04, 1 - z * .04)
+        //     let colorscale = 1
+        //     if (z > 2) {
+        //         colorscale = 1 - (Math.min(z, 12) - 2) / 10
+        //     }
+        //     colorscale *= .5
+        //     if (i % 2 == 1) {
+        //         if (mesh?.material instanceof MeshStandardMaterial) {
+        //             mesh.material.emissive = new Color(6, 0.16, 4).multiplyScalar(colorscale)
+        //         }
+        //     } else {
+        //         if (mesh?.material instanceof MeshStandardMaterial) {
+        //             mesh.material.emissive = new Color(.2, 0.6, 3).multiplyScalar(colorscale)
+        //         }
+        //     }
+            
+        // }
 
     })
     useEffect(() => {
@@ -186,12 +220,12 @@ const TorosGeos = () => {
     return (
         <>
             {
-                [-5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5].map((i) => {
-                    return (<mesh 
-                        ref={(ref) => { torosRef.current[i] = ref }} 
+                Array(14).fill(0).map((v, i) => {
+                    return (<mesh
+                        ref={(ref) => { torosRef.current[i] = ref }}
                         key={i} position={[0, 0, 0]}>
                         <torusGeometry args={[1.2, 0.13, 160, 100]} />
-                        <meshBasicMaterial color={colors} />
+                        <meshStandardMaterial emissive={[0.5, 0.5, 0.5]} color={[0, 0, 0]} />
                     </mesh>)
                 })
             }

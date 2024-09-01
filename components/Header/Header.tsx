@@ -29,7 +29,7 @@ const Header = () => {
           <a href='https://www.instagram.com/swapnesh.io/' target='_blank'><Instagram className='m-auto hover:text-sky-500 hover:rotate-[-12deg] hover:scale-105 transition-all'/></a>
           </li>
           <li className='mx-4'>
-            <Link className='hover:text-sky-500 hover:scale-105 transition-all' href={'/Car'}>3D Car</Link>
+            <Link className='hover:text-sky-500 hover:scale-105 transition-all' href={'/Car/V2'}>3D Car</Link>
           </li>
           <li className='mx-4 flex justify-center align-middle transition-all' onClick={() => dispatch(toggleMusic())}>
             {
