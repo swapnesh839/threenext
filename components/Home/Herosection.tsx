@@ -2,13 +2,14 @@
 import React from 'react'
 import { motion } from "framer-motion";
 import Sparklescomponent from '../StyledComponent/Sparklescomponent'
-import { slideInFromLeft } from '@/utilits/motionvariients/motionvarient';
+import { slideInFromLeft, slideInFromRight } from '@/utilits/motionvariients/motionvarient';
+import Image from 'next/image';
 
 const Herosection = () => {
   return (
     <div className='custom-container sectionpadding'>
-      <div className='flex md:flex-row flex-col'>
-        <div>
+      <div className='flex md:flex-row flex-col '>
+        <div className='w-full md:w-1/2 my-auto'>
           <motion.div variants={slideInFromLeft(0.5)} initial="hidden" animate="visible">
             <Sparklescomponent text='Three js Portfolio ' />
           </motion.div>
@@ -35,23 +36,9 @@ const Herosection = () => {
             Learn More!
           </motion.button>
         </div>
-        <div className='md:mt-0 mt-10'>
-          <motion.div variants={slideInFromLeft(0.5)} initial="hidden" animate="visible">
-            <Sparklescomponent text='Three js Portfolio ' />
-          </motion.div>
-          <motion.div
-            variants={slideInFromLeft(0.7)}
-            initial="hidden" animate="visible"
-            className="mt-6 custom-heading"
-          >
-            <span>
-              Combinimg
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-800 to-cyan-700">
-                {" "}
-                Tech With{" "}
-              </span>
-              Reality
-            </span>
+        <div className='md:mt-0 mt-10 w-full md:w-1/2'>
+          <motion.div variants={slideInFromRight(0.5)} initial="hidden" animate="visible">
+            <Image src="/assets/img/Herosectionimg.png" alt="hero" width={500} height={500} />
           </motion.div>
 
         </div>

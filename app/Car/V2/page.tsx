@@ -1,6 +1,6 @@
 "use client";
 
-import React, { Suspense, useEffect, useRef, useState } from "react";
+import React, { MutableRefObject, useEffect, useRef, useState } from "react";
 import { Canvas, useFrame, useLoader, useThree } from "@react-three/fiber";
 import { MeshReflectorMaterial, OrbitControls, PerspectiveCamera, useGLTF, useHelper } from "@react-three/drei";
 import { Mesh, Object3D, RepeatWrapping, SpotLight, SpotLightHelper, TextureLoader } from "three";
@@ -17,6 +17,16 @@ const Model = () => {
         "/assets/textures/metal-siding-base-bl/metal-siding-base_roughness.png",
         "/assets/textures/metal-siding-base-bl/metal-siding-base_normal-ogl.png",
     ])
+    useEffect(() => {
+        if (ref.current) {
+            ref.current.traverse((object) => {
+                if (object instanceof Mesh) {
+                    object.castShadow = true;
+                    object.receiveShadow = true;
+                }
+            });
+        }
+    }, [ref])
     useEffect(() => {
         [roughnessMap, normalMap].forEach((map) => {
             map.wrapS = RepeatWrapping;
@@ -131,33 +141,32 @@ const Model = () => {
 const Page = () => {
     return (
         <div className="w-full h-full fixed inset-0 -z-40 bg-black">
-            <Suspense fallback={null}>
-                <Canvas
-                    className="fixed top-0 left-0 right-0 bottom-0  w-full h-full -z-10"
-                    camera={{ position: [2, 2, 3] }}
-                >
-                    <OrbitControls autoRotate={true} autoRotateSpeed={0.2} minDistance={2} maxDistance={10} />
-                    <Model />
-                    <TorosGeos />
-                </Canvas>
-            </Suspense>
+            <Canvas
+                className="fixed top-0 left-0 right-0 bottom-0  w-full h-full -z-10"
+                camera={{ position: [2, 2, 3] }}
+            >
+                <OrbitControls autoRotate={true} autoRotateSpeed={0.2} minDistance={2} maxDistance={10} />
+                <Model />
+                <TorosGeos />
+            </Canvas>
         </div>
     );
 };
 const TorosGeos = () => {
     const [colors, setcolors] = useState("hsl(0, 100%, 50%)")
     const [order, setorder] = useState(true)
+    const torosRef: MutableRefObject<(Mesh | null)[]> = useRef([]);
     // const [colors, setcolors] = useState({ one: "rgb(255, 0, 0)", two: "rgb(255, 0, 0)", three: "rgb(255, 0, 0)", four: "rgb(255, 0, 0)", five: "rgb(255, 0, 0)" })
-    let [clrref,setcolorref]= useState(0) 
+    let [clrref, setcolorref] = useState(0)
     useFrame((_, delta) => {
-        const ramdomval = Math.ceil(Math.random()*2)
+        const ramdomval = Math.ceil(Math.random() * 2)
         // console.log(delta,ramdomval);
         console.log(colors);
         setcolors(`hsl(${clrref}, 100%, 50%)`)
         if (order) {
-            setcolorref(clrref+ramdomval)
-        }else{
-            setcolorref(clrref-ramdomval)
+            setcolorref(clrref + ramdomval)
+        } else {
+            setcolorref(clrref - ramdomval)
             // setcolors(`hsl(${clrref-ramdomval}, 100%, 50%)`)
         }
 
@@ -166,36 +175,26 @@ const TorosGeos = () => {
         const interval = setInterval(() => {
             if (order) {
                 setorder(false)
-            }else{
+            } else {
                 setorder(true)
             }
         }, 3000);
         return (
             clearInterval(interval)
         )
-    }, [])
+    }, [order])
     return (
         <>
-            <mesh position={[0, 0, -1.5]}>
-                <torusGeometry args={[1.2, 0.13, 160, 100]} />
-                <meshBasicMaterial color={colors} />
-            </mesh>
-            <mesh>
-                <torusGeometry args={[1.2, 0.13, 160, 100]} />
-                <meshBasicMaterial color={colors} />
-            </mesh>
-            <mesh position={[0, 0, 1.5]}>
-                <torusGeometry args={[1.2, 0.13, 160, 100]} />
-                <meshBasicMaterial color={colors} />
-            </mesh>
-            <mesh position={[0, 0, -3]}>
-                <torusGeometry args={[1.2, 0.13, 160, 100]} />
-                <meshBasicMaterial color={colors} />
-            </mesh>
-            <mesh position={[0, 0, 3]}>
-                <torusGeometry args={[1.2, 0.13, 160, 100]} />
-                <meshBasicMaterial color={colors} />
-            </mesh>
+            {
+                [-5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5].map((i) => {
+                    return (<mesh 
+                        ref={(ref) => { torosRef.current[i] = ref }} 
+                        key={i} position={[0, 0, 0]}>
+                        <torusGeometry args={[1.2, 0.13, 160, 100]} />
+                        <meshBasicMaterial color={colors} />
+                    </mesh>)
+                })
+            }
         </>
     )
 }

@@ -13,7 +13,7 @@ const Header = () => {
   const musicstate = useSelector((state: Rootstore) => state.music.music)
   const dispatch = useDispatch()
   return (
-    <div className='min-h-8 z-50 Headerbg border-b border-purple-950'>
+    <div className='min-h-8 z-50 w-full fixed top-0 Headerbg border-b border-purple-950'>
       <div className='custom-container flex flex-row flex-nowrap align-middle justify-between custom-text1'>
         <Link className='justify-center flex my-auto' href={'/'}>
           <Image width={200} height={100} src="/assets/img/logo.png" alt="logo" />

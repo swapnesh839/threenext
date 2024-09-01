@@ -112,14 +112,14 @@ const Background = () => {
 
     return (
         <div className="w-full h-full fixed inset-0 -z-40">
-            <Suspense fallback={null}>
+            {/* <Suspense fallback={null}> */}
                 <Audio />
                 <Canvas className="fixed top-0 left-0 right-0 bottom-0 bg-black w-full h-full -z-50" camera={{ position: [0, 0, 0] }}>
                     <StarBackground />
                     <group>
                     </group>
                 </Canvas>
-            </Suspense>
+            {/* </Suspense> */}
         </div>
     )
 };

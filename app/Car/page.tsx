@@ -2,8 +2,8 @@
 
 import React, { Suspense, useEffect, useRef, useState } from "react";
 import { Canvas, useThree } from "@react-three/fiber";
-import {  OrbitControls, useGLTF } from "@react-three/drei";
-import {  Mesh, MeshStandardMaterial } from "three";
+import { OrbitControls, useGLTF } from "@react-three/drei";
+import { Mesh, MeshStandardMaterial } from "three";
 import { SwitchCamera } from 'lucide-react';
 import Link from "next/link";
 type CameraPosition = 'top' | 'general' | 'right' | 'left';
@@ -25,6 +25,16 @@ const Model = ({ color, camerposition }: { color: string, camerposition?: Camera
         }
     }, [camerposition, camera.position])
     const ref = useRef<Mesh>(null);
+    useEffect(() => {
+        if (ref.current) {
+            ref.current.traverse((object) => {
+                if (object instanceof Mesh) {
+                    object.castShadow = true;
+                    object.receiveShadow = true;
+                }
+            });
+        }
+    },[ref])
     const { scene } = useGLTF('/assets/glb/lamborghini.glb', true);
     useGLTF.preload('/assets/glb/lamborghini.glb')
     useEffect(() => {
@@ -53,7 +63,7 @@ const Model = ({ color, camerposition }: { color: string, camerposition?: Camera
                 transparent
                 opacity={0.3}
             /> */}
-            {/* <meshBasicMaterial transparent  opacity={0.3} 
+        {/* <meshBasicMaterial transparent  opacity={0.3} 
             // side={DoubleSide}
              color="white" /> */}
         {/* </mesh> */}
