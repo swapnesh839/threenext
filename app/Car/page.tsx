@@ -2,9 +2,10 @@
 
 import React, { Suspense, useEffect, useRef, useState } from "react";
 import { Canvas, useThree } from "@react-three/fiber";
-import { Environment, OrbitControls, useGLTF } from "@react-three/drei";
-import { DoubleSide, Mesh, MeshStandardMaterial, Vector3 } from "three";
+import { OrbitControls, useGLTF } from "@react-three/drei";
+import { Mesh, MeshStandardMaterial } from "three";
 import { SwitchCamera } from 'lucide-react';
+import Link from "next/link";
 type CameraPosition = 'top' | 'general' | 'right' | 'left';
 const Model = ({ color, camerposition }: { color: string, camerposition?: CameraPosition }) => {
     const { camera } = useThree()
@@ -24,6 +25,16 @@ const Model = ({ color, camerposition }: { color: string, camerposition?: Camera
         }
     }, [camerposition, camera.position])
     const ref = useRef<Mesh>(null);
+    useEffect(() => {
+        if (ref.current) {
+            ref.current.traverse((object) => {
+                if (object instanceof Mesh) {
+                    object.castShadow = true;
+                    object.receiveShadow = true;
+                }
+            });
+        }
+    },[ref])
     const { scene } = useGLTF('/assets/glb/lamborghini.glb', true);
     useGLTF.preload('/assets/glb/lamborghini.glb')
     useEffect(() => {
@@ -52,9 +63,9 @@ const Model = ({ color, camerposition }: { color: string, camerposition?: Camera
                 transparent
                 opacity={0.3}
             />
-            {/* <meshBasicMaterial transparent  opacity={0.3} 
+        <meshBasicMaterial transparent  opacity={0.3} 
             // side={DoubleSide}
-             color="white" /> */}
+             color="white" />
         </mesh>
     </group>
 
@@ -63,7 +74,7 @@ const Model = ({ color, camerposition }: { color: string, camerposition?: Camera
 const Page = () => {
     const [camerapositin, setCameraposition] = useState<CameraPosition>("general");
     // const [camerapositincount, setCamerapositioncount] = useState(0);
-    const camerapsn = () => {
+    const camerswap = () => {
         if (camerapositin === "general") {
             setCameraposition("top");
         } else if (camerapositin === "top") {
@@ -80,12 +91,15 @@ const Page = () => {
             <Suspense fallback={null}>
                 <SwitchCamera
                     size={40}
-                    onClick={camerapsn}
-                    className="fixed right-0 top-1/2 z-[999] hover:text-sky-500 hover:rotate-[-12deg] hover:scale-105 transition-all m-3 p-1 rounded-lg Headerbg text-3xl"
+                    onClick={camerswap}
+                    className="fixed right-0 top-1/2 z-[999] hover:text-sky-500 hover:rotate-[-12deg] hover:scale-105 transition-all m-3 p-1 rounded-lg Headerbg text-2xl"
                 />
-                <button className="fixed left-0 top-1/2 m-3 bg-purple-900 text-white hover:bg-black border border-transparent hover:border-purple-900 font-bold py-2 px-4 rounded z-30">
+                <Link href={'/Car/V2'}
+                    className="fixed right-0 top-1/3 z-[999] text-purple-500 hover:scale-105 transition-all  px-3 py-1 rounded-s bg-white text-xl"
+                >V2</Link>
+                {/* <button className="fixed left-0 top-1/2 m-3 bg-purple-900 text-white hover:bg-black border border-transparent hover:border-purple-900 font-bold py-2 px-4 rounded z-30">
                     <a target="_blank" href="https://sketchfab.com/3d-models/lamborghini-huracan-twin-turbo-lost-1d3809ea5a6749d9864ec4c32511d716">Model</a>
-                </button>
+                </button> */}
                 <div className="fixed bottom-0 left-1/2 -translate-x-1/2 z-30 m-7 w-fit flex justify-center align-middle">
                     <div className="inline w-6 h-6 mx-3 rounded-full bg-[#ffffff]" onClick={() => setcolor("#ffffff")}></div>
                     <div className="inline w-6 h-6 mx-3 rounded-full bg-[#156CC3]" onClick={() => setcolor('#156CC3')}></div>
@@ -98,31 +112,28 @@ const Page = () => {
                     camera={{ position: [2, 2, 3] }}
                 >
                     <ambientLight intensity={0.3} />
+                    <spotLight
+                    />
                     <directionalLight
-                        intensity={1}
+                        intensity={2}
                         position={[5, 5, 5]}
                         castShadow
                     />
-                    <pointLight position={[0, 0, 5]} intensity={12} />
                     <directionalLight
-                        intensity={1}
+                        intensity={2}
                         position={[-5, -5, 5]}
                         castShadow
                     />
                     <directionalLight
-                        intensity={1}
+                        intensity={2}
                         position={[5, -5, -5]}
                         castShadow
                     />
                     <directionalLight
-                        intensity={1}
+                        intensity={2}
                         position={[-5, 5, 5]}
                         castShadow
                     />
-                    {/* <Environment files="/assets/hdri/quarry_cloudy_2k.hdr" /> */}
-                    {/* <Environment preset="city" /> */}
-                    {/* <Environment ground />   */}
-                    <spotLight intensity={0.5} position={[5, 5, 5]} castShadow />
                     <OrbitControls autoRotate={true} autoRotateSpeed={0.2} minDistance={2} maxDistance={10} />
                     <Model camerposition={camerapositin} color={color} />
                 </Canvas>

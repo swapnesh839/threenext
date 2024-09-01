@@ -13,7 +13,7 @@ const Header = () => {
   const musicstate = useSelector((state: Rootstore) => state.music.music)
   const dispatch = useDispatch()
   return (
-    <div className='min-h-8 z-50 Headerbg border-b border-purple-950'>
+    <div className='min-h-8 z-50 w-full fixed top-0 Headerbg border-b border-purple-950'>
       <div className='custom-container flex flex-row flex-nowrap align-middle justify-between custom-text1'>
         <Link className='justify-center flex my-auto' href={'/'}>
           <Image width={200} height={100} src="/assets/img/logo.png" alt="logo" />
@@ -29,7 +29,7 @@ const Header = () => {
           <a href='https://www.instagram.com/swapnesh.io/' target='_blank'><Instagram className='m-auto hover:text-sky-500 hover:rotate-[-12deg] hover:scale-105 transition-all'/></a>
           </li>
           <li className='mx-4'>
-            <Link className='hover:text-sky-500 hover:scale-105 transition-all' href={'/Car'}>3D Car</Link>
+            <Link className='hover:text-sky-500 hover:scale-105 transition-all' href={'/Car/V2'}>3D Car</Link>
           </li>
           <li className='mx-4 flex justify-center align-middle transition-all' onClick={() => dispatch(toggleMusic())}>
             {
