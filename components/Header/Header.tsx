@@ -16,7 +16,7 @@ const Header = () => {
     <div className='min-h-8 z-50 w-full fixed top-0 Headerbg border-b border-purple-950'>
       <div className='custom-container flex flex-row flex-nowrap align-middle justify-between custom-text1'>
         <Link className='justify-center flex my-auto' href={'/'}>
-          <Image width={200} height={100} src="/assets/img/logo.png" alt="logo" />
+          <Image width={200} height={100} src="/assets/img/realitiqxr.png" alt="logo" />
         </Link>
         <ul className='flex p-3 flex-row  my-auto'>
         <li className='mx-4 justify-center align-middle md:flex hidden' onClick={() => dispatch(toggleMusic())}>

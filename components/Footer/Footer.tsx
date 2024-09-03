@@ -15,7 +15,7 @@ const Footer = () => {
                             </Link>
                             <div className='mt-4'>
                                 <p className=''>
-                                    Combinimg Tech With Reality
+                                   AR Future With RealitiQ XR
                                 </p>
                             </div>
                         </div>

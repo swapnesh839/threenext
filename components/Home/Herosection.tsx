@@ -19,18 +19,19 @@ const Herosection = () => {
             className="mt-6 custom-heading"
           >
             <span>
-              Combinimg
+              AR Future With
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-800 to-cyan-700">
                 {" "}
-                Tech With{" "}
+                RealitiQ XR{" "}
               </span>
-              Reality
+              {/* Reality */}
             </span>
           </motion.div>
           <motion.div variants={slideInFromLeft(0.9)} initial="hidden" animate="visible" className='mt-4'>
-            <p>
+            {/* <p>
               I&apos;m a Full Stack Software Engineer with skills in the MERN stack, Three.js, and Blender 3D.&nbsp;Explore my projects !
-            </p>
+            </p> */}
+            <p>Make your future with RealitiQ XR</p>
           </motion.div>
           <motion.button variants={slideInFromLeft(1.1)} initial="hidden" animate="visible" className='mt-8 border border-purple-950 bg-gradient-to-r from-[#1e094448] to-[#081b4f48] backdrop-blur-sm text-white bg-blend-saturation py-2 px-8 rounded-xl' >
             Learn More!
